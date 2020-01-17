@@ -8,5 +8,6 @@ namespace DatingApp.API.Data
         public DataContext(DbContextOptions<DataContext> oprion) : base (oprion) {  }
 
         public DbSet<Value> Values { get; set; }
+        public DbSet<User> Users { get; set; }
     }
-}
+} 
