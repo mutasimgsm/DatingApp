@@ -54,6 +54,11 @@ export class PhotoEditorComponent implements OnInit {
           isMain: res.isMain
         };
         this.photos.push(photo);
+        if (photo.isMain) {
+          this.authSevice.changeMemberPhoto(photo.url);
+          this.authSevice.currentUser.photoUrl = photo.url;
+          localStorage.setItem('user', JSON.stringify(this.authSevice.currentUser));
+        }
       }
     };
   }
@@ -63,9 +68,9 @@ export class PhotoEditorComponent implements OnInit {
       this.currentMain = this.photos.filter(p => p.isMain === true)[0];
       this.currentMain.isMain = false;
       photo.isMain = true;
-     this.authSevice.changeMemberPhoto(photo.url);
-     this.authSevice.currentUser.photoUrl = photo.url;
-     localStorage.setItem('user', JSON.stringify(this.authSevice.currentUser));
+      this.authSevice.changeMemberPhoto(photo.url);
+      this.authSevice.currentUser.photoUrl = photo.url;
+      localStorage.setItem('user', JSON.stringify(this.authSevice.currentUser));
     }, error => {
       this.alertify.error(error);
     });
@@ -73,8 +78,9 @@ export class PhotoEditorComponent implements OnInit {
 
   deletePhoto(id: number) {
     this.alertify.confirm('Are you sure you want to delete this photo?', () => {
-      this.userService.deletePhoto(this.authSevice.decodedToken.nameid, id).subscribe(() =>{
-        this.photos.splice(this.photos.findIndex(p => p.id = id), 1);
+      this.userService.deletePhoto(this.authSevice.decodedToken.nameid, id).subscribe(() => {
+        const index = this.photos.findIndex(p => p.id = id);
+        this.photos.splice(index, 1);
         this.alertify.success('Photo has been deleted');
       }, error => {
         this.alertify.error('Failed to delete the photo');
