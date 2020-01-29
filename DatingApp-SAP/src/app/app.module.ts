@@ -32,7 +32,6 @@ import { MemberEditComponent } from './members/member-edit/member-edit.component
 import { MemberEditResolver } from './_resolvers/member-edot.resolver';
 import { PreventUnsavedChanges } from './_guards/prevent-unsaved-changes.guard';
 import { PhotoEditorComponent } from './members/photo-editor/photo-editor.component';
-import { DateAgoPipe } from './pipes/date-ago.pipe';
 import { ListsResolver } from './_resolvers/lists.resolver';
 import { ListsComponent } from './lists/lists.component';
 import { MessagesResolver } from './_resolvers/messages.resolver';
@@ -58,7 +57,7 @@ export function tokenGetter() {
       MemberEditComponent,
       PhotoEditorComponent,
       MemberMessagesComponent,
-      DateAgoPipe
+      TimeAgoPipe
    ],
    imports: [
       BrowserModule,

@@ -17,6 +17,7 @@ export class MemberListComponent implements OnInit {
   genderList = [{ value: 'male', display: 'Males' }, { value: 'female', display: 'Female' }];
   userParams: any = {};
   pagination: Pagination;
+  likesParam = 'Likers';
 
   constructor(private userService: UserService,
     private route: ActivatedRoute, private alertify: AlertifyService) { }
@@ -47,7 +48,7 @@ export class MemberListComponent implements OnInit {
 
   loadUsers() {
     this.userService
-      .getUsers(this.pagination.currentPage, this.pagination.itemsPerPage, this.userParams)
+      .getUsers(this.pagination.currentPage, this.pagination.itemsPerPage, this.userParams, this.likesParam)
       .subscribe((res: PaginatedResult<User[]>) => {
         this.users = res.result;
         this.pagination = res.pagination;
