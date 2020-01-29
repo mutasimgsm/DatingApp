@@ -10,17 +10,21 @@ namespace DatingApp.API.Helpers
         public AutoMapperProfiles()
         {
             CreateMap<User, UserForListDto>()
-                .ForMember(des => des.PhotoUrl, opt => {
+                .ForMember(des => des.PhotoUrl, opt =>
+                {
                     opt.MapFrom(src => src.Photos.FirstOrDefault(p => p.IsMain).Url);
                 })
-                .ForMember(des => des.Age, opt =>{
+                .ForMember(des => des.Age, opt =>
+                {
                     opt.ResolveUsing(d => d.DateOfBirth.CalculateAge());
                 });
             CreateMap<User, UserForDetailedDto>()
-            .ForMember(des => des.PhotoUrl, opt => {
-                    opt.MapFrom(src => src.Photos.FirstOrDefault(p => p.IsMain).Url);
-                })
-                .ForMember(des => des.Age, opt =>{
+            .ForMember(des => des.PhotoUrl, opt =>
+            {
+                opt.MapFrom(src => src.Photos.FirstOrDefault(p => p.IsMain).Url);
+            })
+                .ForMember(des => des.Age, opt =>
+                {
                     opt.ResolveUsing(d => d.DateOfBirth.CalculateAge());
                 });
             CreateMap<Photo, PhotosForDetailedDto>();
@@ -28,6 +32,12 @@ namespace DatingApp.API.Helpers
             CreateMap<Photo, PhotoForReturnDto>();
             CreateMap<PhotoForCreationDto, Photo>();
             CreateMap<UserForRegisterDtos, User>();
+            CreateMap<MessageForCreationDto, Message>().ReverseMap();
+            CreateMap<Message, MessageToReturnDto>()
+                    .ForMember(m => m.SenderPhotoUrl,
+                 opt => opt.MapFrom(u => u.Sender.Photos.FirstOrDefault(p => p.IsMain).Url))
+                    .ForMember(m => m.RecipientPhotoUrl,
+                 opt => opt.MapFrom(u => u.Recipient.Photos.FirstOrDefault(p => p.IsMain).Url));
         }
     }
 }
